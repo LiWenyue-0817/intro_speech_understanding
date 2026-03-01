@@ -16,7 +16,17 @@ def center_of_gravity(x):
     @result:
     c (scalar): x's center of gravity
     '''
-    c = 0  # change this line
+    # 生成索引数组 [0,1,2,...,len(x)-1]
+    indices = np.arange(len(x))
+    # 计算分子：索引和对应元素的点积
+    numerator = np.dot(indices, x)
+    # 计算分母：数组元素和
+    denominator = np.sum(x)
+    # 避免除以0
+    if denominator == 0:
+        c = 0
+    else:
+        c = numerator / denominator
     return c
 
 def matched_identity(x):
@@ -30,7 +40,8 @@ def matched_identity(x):
     @result:
     I (array): a 2d numpy array: an NxN identity matrix
     '''
-    I =  0 # change this line
+    # 创建NxN单位矩阵（N为x的长度）
+    I = np.eye(len(x))
     return I
 
 def sine_and_cosine(t_start, t_end, t_steps):
@@ -48,9 +59,44 @@ def sine_and_cosine(t_start, t_end, t_steps):
     x (array of length t_steps): cos(t)
     y (array of length t_steps): sin(t)
     '''
-    # change these lines
-    t = 0 
-    x = 0
-    y = 0
-    # end changes here
+    # 生成时间轴：从t_start到t_end，共t_steps个点
+    t = np.linspace(t_start, t_end, t_steps)
+    # 计算余弦值
+    x = np.cos(t)
+    # 计算正弦值
+    y = np.sin(t)
     return t, x, y
+
+# ------------------- 测试代码 -------------------
+if __name__ == "__main__":
+    # 测试center_of_gravity函数
+    test_x = np.array([1, 2, 3, 4])
+    cog = center_of_gravity(test_x)
+    print(f"测试center_of_gravity函数：")
+    print(f"输入数组: {test_x}")
+    print(f"重心位置: {cog}\n")
+
+    # 测试matched_identity函数
+    identity_mat = matched_identity(test_x)
+    print(f"测试matched_identity函数：")
+    print(f"输入数组长度: {len(test_x)}")
+    print(f"生成的单位矩阵:\n{identity_mat}\n")
+
+    # 测试sine_and_cosine函数
+    t, x_cos, y_sin = sine_and_cosine(0, 2*np.pi, 100)
+    print(f"测试sine_and_cosine函数：")
+    print(f"时间轴长度: {len(t)}")
+    print(f"前5个时间点: {t[:5]}")
+    print(f"前5个余弦值: {x_cos[:5]}")
+    print(f"前5个正弦值: {y_sin[:5]}\n")
+
+    # 可视化正弦和余弦曲线
+    plt.figure(figsize=(8, 4))
+    plt.plot(t, x_cos, label='cos(t)', color='blue')
+    plt.plot(t, y_sin, label='sin(t)', color='red')
+    plt.xlabel('t')
+    plt.ylabel('Value')
+    plt.title('Cosine and Sine Curves (0 to 2π)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()

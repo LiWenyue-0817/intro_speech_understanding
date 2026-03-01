@@ -12,6 +12,5 @@ string1 should be changed from "change this" to "test"
 string2 should be changed from "change this" to "hello"
 '''
 
-string1 = "change this"
-
-string2 = "change this"
+string1 = "test"  # 已修改为指定值
+string2 = "hello" # 已修改为指定值
